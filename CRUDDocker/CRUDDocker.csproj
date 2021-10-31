@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>58f9f803-1bbf-4695-b7e5-6687e82f1053</UserSecretsId>
+    <UserSecretsId>6d2dec72-a910-4b97-ae5a-716f73c8ceba</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
@@ -21,10 +21,6 @@
     <PackageReference Include="Npgsql" Version="5.0.10" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="dbscript\" />
   </ItemGroup>
 
 </Project>

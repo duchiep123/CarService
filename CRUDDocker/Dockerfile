@@ -8,11 +8,15 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["CRUDDocker/CRUDDocker.csproj", "CRUDDocker/"]
-RUN dotnet tool install --global dotnet-ef
 RUN dotnet restore "CRUDDocker/CRUDDocker.csproj"
 COPY . .
 WORKDIR "/src/CRUDDocker"
 RUN dotnet build "CRUDDocker.csproj" -c Release -o /app/build
-RUN chmod +x ../entrypoint.sh
-CMD /bin/bash ../entrypoint.sh
 
+FROM build AS publish
+RUN dotnet publish "CRUDDocker.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "CRUDDocker.dll"]

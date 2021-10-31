@@ -20,36 +20,32 @@ namespace CRUDDocker.Controllers
                 new Car { Id = 2, Name = "Audi", Color = "White" },
                 new Car { Id = 3, Name = "Honda", Color = "Yellow" }
         };
-        private readonly CarDBContext _context;
 
-        public CarController(CarDBContext carDBContext) {
-            _context = carDBContext;
+        public CarController() {
         
         }
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(new { cars = _context.Cars.AsEnumerable() });
+            return Ok(new { cars});
         }
 
         // GET api/<CarController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            /*Car result = null;
+            Car result = null;
             string message = "Find id between 1 and 3";
             foreach (var car in cars)
             {
-                if (car.Id == id) {
+                if (car.Id == id)
+                {
                     result = car;
                     message = "Success";
                 }
-            }*/
-            var car = _context.Cars
-                       .Where(c => c.Id== id)
-                       .FirstOrDefault();
-            string message = car != null ? "Success" : "Not found car by id " + id;
-            return Ok(new { car, message }) ;
+            }
+
+            return Ok(new { car = result, message }) ;
         }
 
         // POST api/<CarController>
@@ -61,10 +57,7 @@ namespace CRUDDocker.Controllers
                 Name = request.Name,
                 Color = request.Color
             };
-            //cars.Add(newCar);
-            _context.Add(newCar);
-
-            _context.SaveChanges();
+            cars.Add(newCar);
             return Ok(newCar);
         }
 
@@ -83,19 +76,13 @@ namespace CRUDDocker.Controllers
 
         // DELETE api/<CarController>/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
-            /* string message = "Delete base on id between 1 and 3";
-             var result = cars.RemoveAll(car => car.Id == id);
-             if (result > 0) {
-                 message = "Delete succesed.";
-             }*/
-            string message = "Not found car to delete.";
-            var car = await _context.Cars.FindAsync(id);
-            if (car != null) {
-                _context.Cars.Remove(car);
-                await _context.SaveChangesAsync();
-                message = "Delete success";
+            string message = "Delete base on id between 1 and 3";
+            var result = cars.RemoveAll(car => car.Id == id);
+            if (result > 0)
+            {
+                message = "Delete succesed.";
             }
             return Ok(new { message });
         }

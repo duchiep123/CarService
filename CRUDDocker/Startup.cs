@@ -1,10 +1,8 @@
 using CRUDDocker.Model;
-using CRUDDocker.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -15,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRUDDocker
 {
@@ -30,6 +29,7 @@ namespace CRUDDocker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             var connectionString = Configuration["ConnectionString"];
             Console.WriteLine(connectionString);
             var builder = new NpgsqlConnectionStringBuilder(connectionString);
@@ -44,11 +44,10 @@ namespace CRUDDocker
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CRUDDocker", Version = "v1" });
             });
-            services.AddScoped<IMathsService, MathsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, CarDBContext dataContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -67,9 +66,6 @@ namespace CRUDDocker
             {
                 endpoints.MapControllers();
             });
-
-            // Run DB migrationsn on app start
-            //dataContext.Database.Migrate();
         }
     }
 }

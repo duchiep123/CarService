@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  cruddocker:
+    image: ${DOCKER_REGISTRY-}cruddocker
+    build:
+      context: .
+      dockerfile: CRUDDocker/Dockerfile
