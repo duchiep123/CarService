@@ -7,6 +7,9 @@ namespace MyMathsService.Service
 {
     public class MathsService : IMathsService
     {
+        public MathsService() {
+        
+        }
         public double Add(double x1, double x2)
         {
             return (x1 + x2);
